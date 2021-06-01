@@ -1,5 +1,6 @@
 import yaml
 import os
+import pandas as pd
 
 class Products:
     def __init__(self, model):
@@ -17,6 +18,10 @@ class Products:
     @property
     def wait_condition(self):
         return self.config['wait']
+
+    @property
+    def wait_timeout(self):
+        return self.config['timeout']
 
     def __build_method(self, browser, method_type):
         methods = {
@@ -39,3 +44,10 @@ class Products:
                 product[prop] = elements[prop][i]
             products.append(product)
         return products
+    
+    def format_products(self, data):
+        df = pd.DataFrame(data)
+        df['total_sales'] = [int(v.replace(' vendidos', '')) for v in df['total_sales']]
+        df['price'] = [float(v.replace('R$', '').replace(',', '.')) for v in df['price']]
+        return df
+        

@@ -29,6 +29,18 @@ class Shopee:
         keyword = keyword.replace(' ', '%20').lower()
         return self.__root_url + prefix + keyword + filters
 
+    def __fetch(self, browser, handler, search):
+        browser.get(search)
+        WebDriverWait(
+            browser,
+            timeout=handler.wait_timeout
+        ).until(
+            lambda driver: driver.find_element_by_class_name(
+                handler.wait_condition
+            )
+        )
+        return browser
+
     def get_product(self, product, regions=[], rating=None):
         handler = Products('shopee')
         
@@ -36,12 +48,17 @@ class Shopee:
         search_url = self.__build_search_url(product, filters)
         
         browser = self.__driver.browser
-        browser.get(search_url)
-        WebDriverWait(browser, timeout=30).until(
-            lambda driver: driver.find_element_by_class_name(
-                handler.wait_condition
-            )
-        )
-        
+        browser = self.__fetch(browser, handler, search_url)
+
+        pages = int(browser.find_element_by_class_name('shopee-mini-page-controller__total').text)
         products = handler.parse_from_browser(browser)
-        print(products)
+        
+        print(f'Number of Pages: {pages}')
+
+        for i in range(pages-1):
+            page_url =  search_url + '&page=' + str(i+1)
+            browser = self.__fetch(browser, handler, page_url)
+            page_products = handler.parse_from_browser(browser)
+            products += page_products
+        
+        return handler.format_products(products)

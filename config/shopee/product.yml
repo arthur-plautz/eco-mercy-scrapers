@@ -1,4 +1,5 @@
 wait: 'PFM7lj'
+timeout: 30
 fields:
   price:
     type: 'css_selector'
