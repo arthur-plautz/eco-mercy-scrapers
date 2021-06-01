@@ -46,8 +46,18 @@ class Products:
         return products
     
     def format_products(self, data):
+        def price(v):
+            v = v.replace('R$', '').replace(',', '.').replace(' ','')
+            if v.find('-') != -1:
+                v = v.split('-')
+                v = (float(v[0]) + float(v[1]))/2
+            return float(v)
+        
+        def total_sales(v):
+            return int(v.replace(' vendidos', ''))
+
         df = pd.DataFrame(data)
-        df['total_sales'] = [int(v.replace(' vendidos', '')) for v in df['total_sales']]
-        df['price'] = [float(v.replace('R$', '').replace(',', '.')) for v in df['price']]
+        df['total_sales'] = [total_sales(v) if v else 0 for v in df['total_sales']]
+        df['price'] = [price(v) if v else 0 for v in df['price']]
         return df
         
