@@ -1,0 +1,14 @@
+wait: 'PFM7lj'
+fields:
+  price:
+    type: 'css_selector'
+    key: '.WTFwws._1lK1eK._5W0f35'
+  title:
+    type: 'class_name'
+    key: 'PFM7lj'
+  total_sales:
+    type: 'class_name'
+    key: 'go5yPW'
+  region:
+    type: 'class_name'
+    key: '_2CWevj'
