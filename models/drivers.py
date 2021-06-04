@@ -34,7 +34,9 @@ class Driver:
             '--headless',
             'start-maximized',
             'disable-infobars',
-            '--disable-extensions'
+            '--disable-extensions',
+            '--disable-dev-shm-usage',
+            '--no-sandbox'
         ],
         additional_options=[]
     ):

@@ -60,4 +60,3 @@ class Products:
         df['total_sales'] = [total_sales(v) if v else 0 for v in df['total_sales']]
         df['price'] = [price(v) if v else 0 for v in df['price']]
         return df
-        
