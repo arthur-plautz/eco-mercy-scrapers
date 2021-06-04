@@ -1,8 +1,8 @@
-from models.drivers import Driver
+from ecscrapers.models.drivers import Driver
 from selenium.webdriver.support.ui import WebDriverWait
 import urllib
 import logging
-from models.handlers.products import Products
+from ecscrapers.models.handlers.products import Products
 
 class Shopee:
     def __init__(self, log_file=None):

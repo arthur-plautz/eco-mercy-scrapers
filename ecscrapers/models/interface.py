@@ -1,4 +1,4 @@
-from models.shopee import Shopee
+from ecscrapers.models.shopee import Shopee
 import os
 import yaml
 import json
@@ -19,7 +19,10 @@ class Interface:
 
     def __build_log(self):
         log_file = self.config.get('log', 'general.log')
-        self.log = f'{os.getcwd()}/logs/{log_file}'
+        dir_path = f'{os.getcwd()}/logs/'
+        if not os.path.exists(dir_path):
+            os.mkdir(dir_path)
+        self.log = dir_path + log_file
 
     def __build_config(self):
         if os.getenv('CONFIG'):
@@ -49,5 +52,9 @@ class Interface:
             raise Exception('No Search has been found!')
         
         filters = dict(self.config.get('filters', {}))
+        
+        dir_path = f'{os.getcwd()}/data'
         df = function(search, filters)
-        df.to_csv(f'{os.getcwd()}/data/{operation}.csv')
+        if not os.path.exists(dir_path):
+            os.mkdir(dir_path)
+        df.to_csv(f'{dir_path}/{operation}.csv')

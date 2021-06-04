@@ -128,11 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Drivers
-*driver
-
 # Data
 data/*
 
 # Config
-config/run.yml
+ecscrapers/config/run.yml
