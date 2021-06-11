@@ -1,6 +1,5 @@
 import os 
 from selenium import webdriver
-from selenium.common.exceptions import *
 
 class Driver:
     def __init__(self):
@@ -11,7 +10,7 @@ class Driver:
     @property
     def path(self):
         return self.__path
-    
+
     @property
     def browser(self):
         return self.__browser
@@ -27,7 +26,7 @@ class Driver:
             self.__path = drivers_path + driver
         else:
             raise Exception('Driver not defined!')
-    
+
     def build_options(
         self,
         default_options=[
@@ -45,7 +44,7 @@ class Driver:
         for option in options:
             driver_options.add_argument(option)
         self.__options = driver_options
-    
+
     def build_browser(self):
         self.__browser = webdriver.Chrome(
             self.path,

@@ -1,6 +1,5 @@
 import yaml
 import os
-import pandas as pd
 
 class Products:
     def __init__(self, model):
@@ -8,7 +7,7 @@ class Products:
 
     @property
     def config(self):
-        path = f'{os.getcwd()}/config/{self.model}/product.yml'
+        path = f'{os.getcwd()}/ecscrapers/config/{self.model}/product.yml'
         with open(path, 'r') as stream:
             try:
                 return yaml.safe_load(stream)
@@ -36,27 +35,12 @@ class Products:
         for field_name, field in config['fields'].items():
             get_property = self.__build_method(browser, field['type'])
             elements[field_name] = [el.text for el in get_property(field['key'])]
-        
+    
         products = []
         for i in range(len(elements['title'])):
             product = {}
             for prop in elements.keys():
                 product[prop] = elements[prop][i]
             products.append(product)
-        return products
-    
-    def format_products(self, data):
-        def price(v):
-            v = v.replace('R$', '').replace(',', '.').replace(' ','')
-            if v.find('-') != -1:
-                v = v.split('-')
-                v = (float(v[0]) + float(v[1]))/2
-            return float(v)
-        
-        def total_sales(v):
-            return int(v.replace(' vendidos', ''))
 
-        df = pd.DataFrame(data)
-        df['total_sales'] = [total_sales(v) if v else 0 for v in df['total_sales']]
-        df['price'] = [price(v) if v else 0 for v in df['price']]
-        return df
+        return products
