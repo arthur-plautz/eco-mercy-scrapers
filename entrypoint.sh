@@ -1,2 +1,2 @@
 cd /scraper
-python -m scripts.run
+python -m ecscrapers.scripts.run

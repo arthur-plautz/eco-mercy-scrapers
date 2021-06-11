@@ -11,15 +11,18 @@ RUN apt-get install -yqq unzip
 RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
 RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 
+# set chromedriver as driver
+ENV DRIVER=chromedriver
+
 # set display port to avoid crash
 ENV DISPLAY=:99
 
 RUN cd | mkdir scraper | mkdir scraper/data scraper/logs
 
 COPY ./requirements.txt ./scraper/requirements.txt
-COPY ./models ./scraper/models/
-COPY ./scripts ./scraper/scripts/
-COPY ./config ./scraper/config/
+COPY ./ecscrapers/models ./scraper/ecscrapers/models/
+COPY ./ecscrapers/scripts ./scraper/ecscrapers/scripts/
+COPY ./ecscrapers/config ./scraper/ecscrapers/config/
 
 RUN pip install -r ./scraper/requirements.txt
 
