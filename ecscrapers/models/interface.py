@@ -63,7 +63,7 @@ class Interface:
         df = pd.DataFrame(data)
 
         today = date.today()
-        file_name = today.strftime("%d_%m_%Y")
+        file_name = self.config.get('output', today.strftime("%d_%m_%Y"))
 
         bucket = self.config.get('s3_bucket')
         if bucket:
