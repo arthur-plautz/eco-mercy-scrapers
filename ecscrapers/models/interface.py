@@ -61,6 +61,7 @@ class Interface:
 
     def __send_to_s3(self, data, operation, search):
         df = pd.DataFrame(data)
+        df['id'] = df.index
 
         today = date.today()
         file_name = self.config.get('output', today.strftime("%d_%m_%Y"))
@@ -69,7 +70,7 @@ class Interface:
         if bucket:
             search_salt = unidecode.unidecode(search).replace(" ", "_")
             csv_buffer = StringIO()
-            df.to_csv(csv_buffer)
+            df.to_csv(csv_buffer, index=False)
 
             session = boto3.Session(
                 aws_access_key_id=self.credentials.get('public'),
